@@ -1,0 +1,50 @@
+<div class="container border">
+  <div class="typing box is-outlined">
+    <h1 class="title mb-6">Typing challenge</h1>
+    <p
+      class="subtitle"
+      *ngIf="currentSentence && roundCounter <= rounds"
+      [innerHTML]="displayedSentence.join('')"
+    ></p>
+    <button
+      class="button is-success m-2"
+      *ngIf="!currentSentence || roundCounter > rounds"
+      (click)="start()"
+    >
+      Start
+    </button>
+    <input
+      *ngIf="currentSentence && roundCounter <= rounds"
+      class="input"
+      [value]="typedSentence"
+      (input)="checkTyping($event)"
+    />
+    <div class="box">
+      <p *ngIf="currentSentence">Total Errors: {{ errorCounter }}</p>
+      <p>
+        Allowed Errors:
+        <input
+          [value]="allowedErrors"
+          [disabled]="currentSentence && roundCounter <= rounds"
+          (input)="updateAllowedErrors($event)"
+        />
+      </p>
+      <p>
+        Total Rounds:
+        <input
+          [value]="rounds"
+          [disabled]="currentSentence && roundCounter <= rounds"
+          (input)="updateRounds($event)"
+        />
+      </p>
+    </div>
+    <div class="box" *ngIf="roundCounter > rounds">
+      <div class="has-text-success" *ngIf="errorCounter < allowedErrors">
+        You win!
+      </div>
+      <div class="has-text-danger" *ngIf="errorCounter > allowedErrors">
+        You lost!
+      </div>
+    </div>
+  </div>
+</div>
